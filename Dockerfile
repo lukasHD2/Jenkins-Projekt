@@ -1,6 +1,9 @@
 FROM alpine:3.24.2
 
-RUN apk add --no-cache bash
+RUN apk add --no-cache \
+    bash \
+    iputils \
+    mariadb-client
 
 WORKDIR /app
 

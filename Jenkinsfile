@@ -8,6 +8,12 @@ pipeline {
             }
         }
 
+        stage('Syntax Check') {
+            steps {
+                sh 'bash -n netwatch.sh'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh """
