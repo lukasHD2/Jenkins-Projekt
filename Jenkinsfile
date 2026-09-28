@@ -8,9 +8,9 @@ pipeline {
             }
         }
 
-        stage('Check') {
+        stage('Run') {
             steps {
-                sh 'ls -la'
+                sh 'sh netwatch.sh'
             }
         }
     }
