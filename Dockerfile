@@ -5,6 +5,8 @@ RUN apk add --no-cache \
     iputils \
     mariadb-client
 
+ENV TZ=Europe/Berlin
+
 WORKDIR /app
 
 COPY netwatch.sh .
