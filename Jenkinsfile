@@ -8,9 +8,9 @@ pipeline {
             }
         }
 
-        stage('Run') {
+        stage('Check files') {
             steps {
-                sh 'sh netwatch.sh'
+                sh 'docker build -t netwatch .'
             }
         }
     }
