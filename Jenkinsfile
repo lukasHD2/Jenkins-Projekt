@@ -17,10 +17,17 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh """
-                    docker build \
-                        -t netwatch:${BUILD_NUMBER} \
-                        -t netwatch:latest \
-                        .
+                    docker build -t netwatch:${BUILD_NUMBER} .
+                """
+            }
+        }
+
+        stage('Create Latest Docker Image') {
+            steps {
+                sh """
+                    docker tag \
+                    netwatch:${BUILD_NUMBER} \
+                    netwatch:latest
                 """
             }
         }
