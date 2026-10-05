@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        VERSION = "1.0.${BUILD_NUMBER - 1}"
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -21,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh """
-                    docker build -t netwatch:${VERSION} .
+                    docker build -t netwatch:${BUILD_NUMBER} .
                 """
             }
         }
@@ -30,7 +26,7 @@ pipeline {
             steps {
                 sh """
                     docker tag \
-                    netwatch:${VERSION} \
+                    netwatch:${BUILD_NUMBER} \
                     netwatch:latest
                 """
             }
