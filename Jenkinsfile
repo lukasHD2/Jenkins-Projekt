@@ -32,4 +32,16 @@ pipeline {
             }
         }
     }
+
+    post {
+
+        success {
+            echo 'Pipeline erfolgreich!'
+            echo 'Docker-Image wurde erstellt.'
+        }
+
+        failure {
+            echo 'Pipeline fehlgeschlagen!'
+        }
+    }
 }
