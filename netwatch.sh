@@ -2,6 +2,7 @@
 
 TARGETS_FILE="targets.conf"
 
+# Prüfen, ob alle benötigten Datenbank-Variablen gesetzt sind
 if [ -z "$DB_HOST" ] ||
    [ -z "$DB_PORT" ] ||
    [ -z "$DB_NAME" ] ||
@@ -108,22 +109,24 @@ while true; do
 
         CHECK_TIME=$(date '+%Y-%m-%d %H:%M:%S')
 
+        #
+        # Host prüfen
+        #
         RESULT=$(ping -c 1 -W 2 "$IP_ADDRESS" 2>/dev/null)
 
         if echo "$RESULT" | grep -q "time="; then
-
             STATUS="ONLINE"
 
-            RESPONSE_TIME=$(echo "$RESULT" \
-                | sed -n 's/.*time=\([0-9.]*\).*/\1/p')
-
+            RESPONSE_TIME=$(echo "$RESULT" |
+                sed -n 's/.*time=\([0-9.]*\).*/\1/p')
         else
-
             STATUS="OFFLINE"
             RESPONSE_TIME=""
-
         fi
 
+        #
+        # Ergebnis ausgeben
+        #
         echo "----------------------------------------"
         echo "Hostname:      $HOSTNAME"
         echo "IP-Adresse:    $IP_ADDRESS"
@@ -134,10 +137,9 @@ while true; do
         #
         # Datenbank INSERT
         #
-
         if [ -n "$RESPONSE_TIME" ]; then
 
-            mariadb \
+            if mariadb \
                 -h "$DB_HOST" \
                 -P "$DB_PORT" \
                 -u "$DB_USER" \
@@ -161,10 +163,15 @@ while true; do
                         $RESPONSE_TIME
                     );
                 "
+            then
+                echo "Datenbank:    gespeichert"
+            else
+                echo "Datenbank:    FEHLER beim Speichern"
+            fi
 
         else
 
-            mariadb \
+            if mariadb \
                 -h "$DB_HOST" \
                 -P "$DB_PORT" \
                 -u "$DB_USER" \
@@ -188,13 +195,12 @@ while true; do
                         NULL
                     );
                 "
+            then
+                echo "Datenbank:    gespeichert"
+            else
+                echo "Datenbank:    FEHLER beim Speichern"
+            fi
 
-        fi
-
-        if [ $? -eq 0 ]; then
-            echo "Datenbank:    gespeichert"
-        else
-            echo "Datenbank:    FEHLER beim Speichern"
         fi
 
     done < "$TARGETS_FILE"
