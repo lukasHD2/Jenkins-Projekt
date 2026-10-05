@@ -14,6 +14,12 @@ pipeline {
             }
         }
 
+        stage('Shellcheck') {
+            steps {
+                sh 'shellcheck netwatch.sh'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh """

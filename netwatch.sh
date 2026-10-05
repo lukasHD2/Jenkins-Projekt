@@ -2,12 +2,6 @@
 
 TARGETS_FILE="targets.conf"
 
-DB_HOST="${DB_HOST}"
-DB_PORT="${DB_PORT}"
-DB_NAME="${DB_NAME}"
-DB_USER="${DB_USER}"
-DB_PASSWORD="${DB_PASSWORD}"
-
 if [ -z "$DB_HOST" ] ||
    [ -z "$DB_PORT" ] ||
    [ -z "$DB_NAME" ] ||
