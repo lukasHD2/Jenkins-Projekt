@@ -2,11 +2,27 @@
 
 TARGETS_FILE="targets.conf"
 
-DB_HOST="${DB_HOST:-mariadb}"
-DB_PORT="${DB_PORT:-3306}"
-DB_NAME="${DB_NAME:-netwatch}"
-DB_USER="${DB_USER:-netwatch}"
-DB_PASSWORD="${DB_PASSWORD:-secret}"
+DB_HOST="${DB_HOST}"
+DB_PORT="${DB_PORT}"
+DB_NAME="${DB_NAME}"
+DB_USER="${DB_USER}"
+DB_PASSWORD="${DB_PASSWORD}"
+
+if [ -z "$DB_HOST" ] ||
+   [ -z "$DB_PORT" ] ||
+   [ -z "$DB_NAME" ] ||
+   [ -z "$DB_USER" ] ||
+   [ -z "$DB_PASSWORD" ]; then
+
+    echo "FEHLER: Datenbank-Konfiguration fehlt."
+    echo "Benötigte Environment-Variablen:"
+    echo "  DB_HOST"
+    echo "  DB_PORT"
+    echo "  DB_NAME"
+    echo "  DB_USER"
+    echo "  DB_PASSWORD"
+    exit 1
+fi
 
 echo "========================================"
 echo " NetWatch startet"
